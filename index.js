@@ -336,7 +336,8 @@ function QUERN_compute_qr(m,
 
 function QUERN_multiply_with_q_transpose(m,
                                          Q,
-                                         x)
+                                         x
+                                        )
 {
   if(m<=0)
     return QUERN_INPUT_ERROR;
@@ -423,6 +424,7 @@ module.exports.prepare = function(As, m, n) {
   var R = {
   }
 
+
   QUERN_compute_qr(m, n,
                    A,
                    Q,
@@ -430,15 +432,17 @@ module.exports.prepare = function(As, m, n) {
                   );
 
   return function(b) {
+
+    var c = b.slice()
     QUERN_multiply_with_q_transpose(m,
                                     Q,
-                                    b
+                                    c
                                    );
     var solution = []
 
     QUERN_solve_with_r(n,
                        R,
-                       b,
+                       c,
                        solution);
 
 
