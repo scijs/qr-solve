@@ -1,5 +1,3 @@
-const QUERN_INPUT_ERROR = 1
-
 function SparseEntry(/*int*/ index_ = 0, /* double*/ value_ = 0.0) {
   this.index = index_
   this.value = value_
@@ -200,12 +198,6 @@ function QUERN_compute_qr(m,
                           out_Q,
                           out_R)
 {
-  if(m<=0 || n<=0 || m<n)
-    // TODO: other checks, on A Q and R
-    return QUERN_INPUT_ERROR;
-
-  // set up lists for dynamically building Q and R
-
   //  SparseVector* Q=(SparseVector*)std::malloc(m*sizeof(SparseVector));
   var Q = []
   var R = []
@@ -339,8 +331,6 @@ function QUERN_multiply_with_q_transpose(m,
                                          x
                                         )
 {
-  if(m<=0)
-    return QUERN_INPUT_ERROR;
   var i, j, k;
   var c, s;
   for(i=0; i<m; ++i){
@@ -368,9 +358,6 @@ function QUERN_solve_with_r(n,
                             rhs,
                             result)
 {
-  // check input
-  if(n<=0)
-    return QUERN_INPUT_ERROR;
   // do the solve
   var x, rii;
   var i, j;
