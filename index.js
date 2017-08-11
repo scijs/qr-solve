@@ -393,7 +393,29 @@ function QUERN_solve_with_r(intn,
 }
 
 
-function solve(m, n, A, b) {
+function solve(m, n, As, b) {
+
+  var A = {
+    row_start: [],
+    column_index: [],
+    value: [],
+
+
+  }
+
+  for(var i = 0; i < As.length; ++i) {
+    var e = As[i]
+
+
+    if(i == 0 || As[i][0] != As[i-1][0]) {
+      A.row_start.push(i)
+    }
+
+    A.column_index.push(e[1])
+    A.value.push(e[2])
+  }
+  A.row_start[A.row_start.length] = As.length
+
 
   var Q = {
   }
@@ -411,9 +433,6 @@ function solve(m, n, A, b) {
                                   Q,
                                   b
                                  );
-  //console.log(b)
-
-
   var solution = []
 
   QUERN_solve_with_r(n,
@@ -423,37 +442,28 @@ function solve(m, n, A, b) {
 
 
   return solution
-  //console.log(A)
 }
 
-var A = {
+var As = [
+  [0, 0, +1],
+  [0, 1, -1],
+  [0, 2, +4],
 
-  row_start: [
-    0,
-    3,
-    6,
-    9,
-    11
-  ],
+  [1, 0, +1],
+  [1, 1, +4],
+  [1, 2, -2],
 
-  column_index: [
-    0, 1, 2,
-    0, 1, 2,
-    0, 1, 2,
+  [2, 0, +1],
+  [2, 1, +4],
+  [2, 2, +2],
 
-    0, 1
-  ],
+  [3, 0, +1],
+  [3, 1, -1],
+]
 
-  value: [
-    1, -1,  4,
-    1,  4, -2,
-    1,  4,  2,
-    1,  -1
-  ]
-}
 var b =  [11, 3, 15, -1]
 
 var m = 4
 var n = 3
 
-console.log(solve(m, n, A ,b))
+console.log(solve(m, n, As ,b))
