@@ -4,8 +4,12 @@
   "description": "TODO",
   "main": "index.js",
   "scripts": {
+    "test": "tape test.js"
   },
   "devDependencies": {
+    "almost-equal": "^1.1.0",
+    "tape": "^4.8.0",
+    "xorshift": "^1.1.0"
   },
   "repository": {
     "type": "git",
@@ -27,6 +31,5 @@
     "url": "https://github.com/Erkaman/qr-solve/issues"
   },
   "homepage": "https://github.com/Erkaman/qr-solve",
-  "dependencies": {
-  }
+  "dependencies": {}
 }
