@@ -1,7 +1,7 @@
 {
   "name": "qr-solve",
   "version": "0.0.1",
-  "description": "TODO",
+  "description": "This module solves sparse linear systems by using the QR-decomposition",
   "main": "index.js",
   "scripts": {
     "test": "tape test.js"
