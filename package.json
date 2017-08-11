@@ -1,0 +1,32 @@
+{
+  "name": "qr-solve",
+  "version": "0.0.1",
+  "description": "TODO",
+  "main": "index.js",
+  "scripts": {
+  },
+  "devDependencies": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Erkaman/qr-solve.git"
+  },
+  "keywords": [
+    "numerical",
+    "computing",
+    "sparse",
+    "matrix",
+    "solver",
+    "linear",
+    "system",
+    "qr"
+  ],
+  "author": "Eric Arnebäck",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Erkaman/qr-solve/issues"
+  },
+  "homepage": "https://github.com/Erkaman/qr-solve",
+  "dependencies": {
+  }
+}
