@@ -1,3 +1,5 @@
+var copysign = require( 'math-float64-copysign' );
+
 function SparseEntry(/*int*/ index_ = 0, /* double*/ value_ = 0.0) {
   this.index = index_
   this.value = value_
@@ -66,11 +68,10 @@ SparseVector.prototype.push_front = function(e){
 
 function encode(c, s)
 {
-  return [c, s]
-}
-
-function decode(tau) {
-  return tau
+    if(Math.abs(s)<c)
+        return s; // will be at most sqrt(0.5)=0.707... in magnitude
+    else
+        return copysign(1/c, s); // will be least sqrt(2)=1.414... in
 }
 
 //var proto = SparseVector.prototype
@@ -93,6 +94,20 @@ function copy_row(nnz,
 function givens( a,
                  b)
 {
+}
+
+
+
+function apply_givens(/*SparseVector&*/ x,
+  /*SparseVector&*/ y,
+  /*int*/ diagonal) // c, s
+{
+  // find the rotation we need
+  var a=x.front().value, b=y.front().value;
+
+
+
+
   var c
   var s
 
@@ -112,21 +127,8 @@ function givens( a,
     }
   }
 
-  return [c, s]
-}
+  console.log("c, s: ", c, s)
 
-
-
-function apply_givens(/*SparseVector&*/ x,
-  /*SparseVector&*/ y,
-  /*int*/ diagonal) // c, s
-{
-  // find the rotation we need
-  var a=x.front().value, b=y.front().value;
-
-  var ret = givens(a, b);
-  var c= ret[0];
-  var s= ret[1];
 
   // rotate the start of each list
   x.front().value=c*a-s*b;
@@ -185,8 +187,8 @@ function apply_givens(/*SparseVector&*/ x,
       q.inc();
     }while(q.still_going());
   }
-  return ret;
 
+  return encode(c, s)
 }
 
 
@@ -232,7 +234,7 @@ function QUERN_compute_qr(m,
 
         var ret = apply_givens(R[j], row, j);
 
-        Q[a].insert(q, new SparseEntry(j, encode(ret[0], ret[1])));
+        Q[a].insert(q, new SparseEntry(j, ret));
         q.inc();
 
       }
@@ -347,8 +349,18 @@ function QUERN_multiply_with_q_transpose(m,
 
       }else{
 
-        var c = Q.value[j][0]
-        var s = Q.value[j][1]
+        var tau = Q.value[j]
+        var c
+        var s
+
+        if(Math.abs(tau)<1){
+          s=tau;
+          c=Math.sqrt(1-s*s);
+        }else{
+          c=1/tau;
+          s=Math.sqrt(1-c*c);
+          if(c<0){ c=-c; s=-s; }
+        }
 
         var newxk=c*x[k]-s*x[i];
         x[i]=s*x[k]+c*x[i];
@@ -399,7 +411,6 @@ module.exports.prepare = function(As, m, n) {
 
   for(var i = 0; i < As.length; ++i) {
     var e = As[i]
-
 
     if(i == 0 || As[i][0] != As[i-1][0]) {
       A.row_start.push(i)

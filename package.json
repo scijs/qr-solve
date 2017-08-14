@@ -32,5 +32,6 @@
   },
   "homepage": "https://github.com/Erkaman/qr-solve",
   "dependencies": {
+    "math-float64-copysign": "^1.0.0"
   }
 }
