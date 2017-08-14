@@ -105,9 +105,6 @@ function apply_givens(/*SparseVector&*/ x,
   // find the rotation we need
   var a=x.front().value, b=y.front().value;
 
-
-
-
   var c
   var s
 
@@ -126,9 +123,6 @@ function apply_givens(/*SparseVector&*/ x,
       s=c*tau;
     }
   }
-
-  console.log("c, s: ", c, s)
-
 
   // rotate the start of each list
   x.front().value=c*a-s*b;

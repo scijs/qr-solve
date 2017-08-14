@@ -77,7 +77,7 @@ test('solve10x10matrix', function(t) {
 
 test('solve100x100matrix', function(t) {
   var L = []
-  var n = 10
+  var n = 100
 
   // first generate a lower-triangular matrix L
   for(var i = 0; i < n; ++i) {

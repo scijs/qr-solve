@@ -74,7 +74,10 @@ var m = 10
 var n = 10
 
 var solve = qrSolve.prepare(A, m, n) // first decompose.
-console.log(solve(b)) // then solve!
+
+var solution = new Float64Array(n) // in here we put the solution
+solve(b, solution)
+console.log(solution) // then solve!
 ```
 
 ## API
@@ -91,7 +94,8 @@ columns numbers.
 * `m` the number of rows in the matrix `A`
 * `n` the number of columns in the matrix `A`
 
-**Returns** A function that takes a single argument `b`. The function
-  returns the solution to the equation `Ax = b`, encoded as a simple array.
+**Returns** A function that takes a first argument `b`, and a second
+  argument `x`. The function
+  put the solution to the equation `Ax = b` in the array `x`.
 
 **NOTE** the module does no sanity checking on the input arguments. It is assumed that the user knows what he/she is doing!
