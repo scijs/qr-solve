@@ -31,5 +31,6 @@
     "url": "https://github.com/Erkaman/qr-solve/issues"
   },
   "homepage": "https://github.com/Erkaman/qr-solve",
-  "dependencies": {}
+  "dependencies": {
+  }
 }

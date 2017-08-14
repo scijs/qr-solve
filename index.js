@@ -334,14 +334,19 @@ function QUERN_multiply_with_q_transpose(m,
   var i, j, k;
   var c, s;
   for(i=0; i<m; ++i){
+
     for(j=Q.row_start[i]; j<Q.row_start[i+1]; ++j){
       k=Q.column_index[j];
       if(Q.value[j]==1){ // swap?
         //                std::swap(x[i], x[k]);
+
+
         var temp = x[i]
         x[i] = x[k]
         x[k] = temp
+
       }else{
+
         var c = Q.value[j][0]
         var s = Q.value[j][1]
 
@@ -350,6 +355,7 @@ function QUERN_multiply_with_q_transpose(m,
         x[k]=newxk;
       }
     }
+
   }
 }
 
@@ -411,28 +417,32 @@ module.exports.prepare = function(As, m, n) {
   var R = {
   }
 
-
   QUERN_compute_qr(m, n,
                    A,
                    Q,
                    R
                   );
 
-  return function(b) {
+  var c = new Float64Array(m)
 
-    var c = b.slice()
+  return function(b, solution) {
+    for(var i = 0; i < m; ++i) {
+      c[i] = b[i]
+    }
+
     QUERN_multiply_with_q_transpose(m,
                                     Q,
                                     c
                                    );
-    var solution = []
+
+
+    for(var i = 0; i < n; ++i) {
+      solution[i] = 0
+    }
 
     QUERN_solve_with_r(n,
                        R,
                        c,
                        solution);
-
-
-    return solution
   }
 }

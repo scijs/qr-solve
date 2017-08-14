@@ -3,13 +3,16 @@ var test        = require('tape')
 var almostEqual = require("almost-equal")
 
 // deterministic RNG for generating test data.
-var rng = new require('xorshift').constructor([1, 0, 2, 0]);
+var xr = require('xorshift')
+var rng = new xr.constructor([1, 0, 2, 0]);
 
 var eps = 1e-5
 
 function qrSolveHelper(As, m, n, b) {
+  var solution = new Float64Array(n)
   var solve = qrSolve.prepare(As, m, n)
-  return solve(b)
+  solve(b, solution)
+  return solution
 }
 
 test('solve10x10matrix', function(t) {
@@ -63,6 +66,8 @@ test('solve10x10matrix', function(t) {
 
   var expectedSolution = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 
+  console.log("found: ", foundSolution)
+
   for(var i=0; i< n; ++i) {
     t.assert(almostEqual(expectedSolution[i], foundSolution[i], eps, eps), "solution element " + i + ": "+ expectedSolution[i] + " = " + foundSolution[i])
   }
@@ -72,7 +77,7 @@ test('solve10x10matrix', function(t) {
 
 test('solve100x100matrix', function(t) {
   var L = []
-  var n = 1000
+  var n = 100
 
   // first generate a lower-triangular matrix L
   for(var i = 0; i < n; ++i) {
